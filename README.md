@@ -7,8 +7,15 @@
 
 ## 📸 Interface
 
-> *Aba Criação — Aba Desligamento*
-> *(adicione screenshots aqui)*
+| Aba Criação — Onboarding | Aba Desligamento — Offboarding |
+|:---:|:---:|
+| ![Criação de Usuário](screenshot-criacao.png) | ![Desligamento de Colaborador](screenshot-desligamento.png) |
+
+---
+
+## 🎬 Demonstração em vídeo
+
+> 🔗 *Em breve — gravação do processo completo de onboarding e offboarding*
 
 ---
 
@@ -71,23 +78,15 @@ $CFG_ClientSecret = "SEU_CLIENT_SECRET"
 
 $CFG_Dominio      = "suaempresa.com.br"
 $CFG_SenhaInicial = "@SenhaInicial2025"
-$CFG_Servidor     = "10.0.0.1"          # IP ou hostname do servidor ADConnect
+$CFG_Servidor     = "10.0.0.1"
 $CFG_SyncUser     = "DOMINIO\admin"
-$CFG_SyncSenha    = "SenhaDo Servidor"
+$CFG_SyncSenha    = "SenhaDoServidor"
 $CFG_TargetOU     = "OU=Usuarios Desabilitados,DC=suaempresa,DC=com,DC=br"
 ```
-
-As credenciais são salvas criptografadas em `config.xml` após o primeiro uso. Não é necessário configurar novamente em execuções futuras **na mesma máquina**.
 
 ### 2. Executar
 
 Dê um duplo clique no arquivo `gestao_usuarios.bat` (solicita elevação UAC automaticamente).
-
-Ou execute diretamente via PowerShell como Administrador:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File ".\ober_gestao_usuarios.ps1"
-```
 
 ### 3. Criar usuário
 
@@ -108,35 +107,31 @@ powershell -ExecutionPolicy Bypass -File ".\ober_gestao_usuarios.ps1"
 ---
 
 ## 📁 Estrutura de arquivos
-
-```
 📦 gestao-usuarios/
 ├── gestao_usuarios.bat          # Launcher (eleva UAC automaticamente)
 ├── ober_gestao_usuarios.ps1     # Script principal
 ├── config.xml                   # Credenciais criptografadas (gerado automaticamente)
 └── logs/
-    ├── criacao_YYYY-MM.log      # Log mensal de criações
-    ├── desligamento_YYYY-MM.log # Log mensal de desligamentos
-    ├── historico_criacao.csv    # Histórico completo de criações
-    └── historico_desligamentos.csv # Histórico completo de desligamentos
-```
+├── criacao_YYYY-MM.log
+├── desligamento_YYYY-MM.log
+├── historico_criacao.csv
+└── historico_desligamentos.csv
 
 ---
 
 ## 🛠️ Detalhes técnicos
 
-- **PSSession remota**: carrega o módulo ActiveDirectory via WinRM em qualquer máquina da rede, sem necessidade de RSAT. Suporta autenticação por Kerberos (hostname) e NTLM (IP).
-- **Graph API token cache**: token OAuth 2.0 com cache de 50 minutos e renovação automática.
-- **Polling de propagação M365**: após o sync ADConnect, verifica a cada 15 segundos (até 5 minutos) se o usuário apareceu no Microsoft 365 antes de tentar atribuir a licença.
-- **Exchange Online em Runspace separado**: a conversão de mailbox roda em thread paralela para não travar a interface gráfica, com timeout de 3 minutos.
-- **Fallback Exchange → Graph API**: se o Exchange Online falhar, tenta converter via endpoint beta da Graph API (`mailboxSettings`).
+- **PSSession remota**: carrega o módulo ActiveDirectory via WinRM sem necessidade de RSAT
+- **Graph API token cache**: token OAuth 2.0 com cache de 50 minutos e renovação automática
+- **Polling de propagação M365**: verifica a cada 15 segundos (até 5 minutos) se o usuário apareceu no M365
+- **Exchange Online em Runspace separado**: conversão de mailbox em thread paralela, sem travar a interface
+- **Fallback Exchange → Graph API**: se o Exchange Online falhar, tenta via endpoint beta da Graph API
 
 ---
 
 ## 📊 Logs e rastreabilidade
 
-Todas as operações geram:
-- Log em tempo real na interface (com ícones coloridos por tipo: ✔ OK | ✘ ERRO | ⚠ AVISO | ➤ INFO | ▶ ETAPA)
+- Log em tempo real na interface (✔ OK | ✘ ERRO | ⚠ AVISO | ➤ INFO | ▶ ETAPA)
 - Arquivo de log mensal em `logs/`
 - Registro em CSV com data/hora, operador, usuário e resultado
 
@@ -144,14 +139,14 @@ Todas as operações geram:
 
 ## 🤝 Contribuição
 
-Pull requests são bem-vindos! Para mudanças maiores, abra uma issue primeiro para discutirmos o que você gostaria de mudar.
+Pull requests são bem-vindos! Para mudanças maiores, abra uma issue primeiro.
 
 ---
 
 ## 📄 Licença
 
-MIT License — veja o arquivo [LICENSE](LICENSE) para detalhes.
+MIT License
 
 ---
 
-*Desenvolvido por [Seu Nome] — Ober Tecnologia da Informação*
+*Desenvolvido por Jhonata Sales — Ober Tecnologia da Informação*
