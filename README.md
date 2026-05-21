@@ -1,4 +1,4 @@
-# 🔷 Ober TI — Gestão de Usuários
+# 🔷 Gestão de Usuários
 **Active Directory + Microsoft 365 | Onboarding & Offboarding Automatizado**
 
 > Interface gráfica em PowerShell + WinForms para criação e desligamento de colaboradores com integração completa ao Active Directory e Microsoft 365.
